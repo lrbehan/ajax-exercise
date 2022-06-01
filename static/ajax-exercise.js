@@ -30,6 +30,16 @@ function showWeather(evt) {
 document.querySelector('#weather-form').addEventListener('submit', showWeather);
 
 // PART 3: ORDER MELONS
+function melonResults(result){
+  if(result.code === 'OK'){
+    document.querySelector('#order-status').classList.remove('order-error');
+    document.querySelector('#order-status').innerHTML= `${result.msg}`
+  } else {
+    document.querySelector('#order-status').classList.add('order-error');
+    document.querySelector('#order-status').innerHTML= `${result.msg}`
+  }
+}
+
 
 function orderMelons(evt) {
   evt.preventDefault();
@@ -47,9 +57,20 @@ function orderMelons(evt) {
     },
   })
   .then((response) => response.json())
-  .then(result);
+  .then(melonResults);
 
   // TODO: show the result message after your form
   // TODO: if the result code is ERROR, make it show up in red (see our CSS!)
 }
 document.querySelector('#order-form').addEventListener('submit', orderMelons);
+
+
+//function dogImage()
+document.querySelector('#get-dog-image').addEventListener('click', () => {
+fetch('https://dog.ceo/api/breeds/image/random')
+  .then((response) => response.json())
+  .then((result) =>{
+    const dogPhoto = result.message 
+  document.querySelector('#dog-image').insertAdjacentHTML('beforeend',`<img src = ${dogPhoto}>`);
+ });
+})
